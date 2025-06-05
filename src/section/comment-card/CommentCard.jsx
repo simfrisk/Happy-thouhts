@@ -129,6 +129,9 @@ export const CommentCard = ({ text,
     setMessages,
     setRecentComments,
     apiNewId) => {
+    
+    console.log("💬 Like clicked for ID:", id);
+    console.log("🔁 API New ID:", apiNewId);
 
     setIsButtonDisabled(true)
 
@@ -161,7 +164,7 @@ export const CommentCard = ({ text,
 
 
     if (apiNewId && apiNewId !== id) {
-      fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${apiNewId}/like`, {
+      fetch(`https://happy-thoughts-zcsh.onrender.com/thoughts/${apiNewId}/like`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -169,7 +172,7 @@ export const CommentCard = ({ text,
       });
     }
 
-    fetch(`https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/${id}/like`, {
+    fetch(`https://happy-thoughts-zcsh.onrender.com/thoughts/${id}/like`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -178,6 +181,11 @@ export const CommentCard = ({ text,
 
 
   };
+
+
+  // const deleteHandeler = (id) => {
+  
+  // }
 
   //#endregion
 
@@ -194,7 +202,13 @@ export const CommentCard = ({ text,
           >❤️</button>
           <p>x {likes}</p>
         </div>
-        <p>{timestamp}</p>
+        <div>
+          <button
+            disabled={isButtonDisabled}
+            className={`like-color ${liked ? "on" : "off"}`}
+            ><img src="./assets/Btn-trash.svg" alt="" /></button>
+        </div>
+            <p>{timestamp}</p>
       </CommentCardFooter>
     </CommentCardWrapper>
 
