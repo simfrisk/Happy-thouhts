@@ -58,7 +58,6 @@ justify-content: space-between;
 
 export const MessageCard = ({ userInput, setUserInput, comment, setApiNewId }) => {
 
-
   const handleSubmit = (event) => {
 
     fetch("https://happy-thoughts-zcsh.onrender.com/thoughts", {
@@ -69,10 +68,10 @@ export const MessageCard = ({ userInput, setUserInput, comment, setApiNewId }) =
       headers: { "Content-Type": "application/json" },
     })
       .then((res) => res.json())
-      .then((newThought) => {
-        setApiNewId(newThought._id)
-        // setMessages((previousThoughts) => [newThought, ...previousThoughts])
-      })
+      .then((data) => {
+        const newThought = data.response; 
+        setApiNewId(newThought._id);;
+})
     comment(event, userInput);
   };
 

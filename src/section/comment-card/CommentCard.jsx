@@ -162,7 +162,6 @@ export const CommentCard = ({ text,
       );
     }
 
-
     if (apiNewId && apiNewId !== id) {
       fetch(`https://happy-thoughts-zcsh.onrender.com/thoughts/${apiNewId}/like`, {
         method: "POST",
@@ -183,9 +182,31 @@ export const CommentCard = ({ text,
   };
 
 
-  // const deleteHandeler = (id) => {
-  
-  // }
+const deleteHandler = (id) => {
+  fetch(`https://happy-thoughts-zcsh.onrender.com/thoughts/${id}`, {
+    method: "DELETE",
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to delete thought");
+      }
+
+      if (setMessages) {
+        setMessages((prevMessages) =>
+          prevMessages.filter((message) => message.id !== id)
+        );
+      }
+
+      if (setRecentComments) {
+        setRecentComments((prevMessages) =>
+          prevMessages.filter((message) => message.id !== id)
+        );
+      }
+    })
+    .catch((error) => {
+      console.error("❌ Delete failed:", error);
+    });
+};
 
   //#endregion
 
@@ -206,6 +227,7 @@ export const CommentCard = ({ text,
           <button
             disabled={isButtonDisabled}
             className={`like-color ${liked ? "on" : "off"}`}
+            onClick={() => deleteHandler(id)}
             ><img src="./assets/Btn-trash.svg" alt="" /></button>
         </div>
             <p>{timestamp}</p>
