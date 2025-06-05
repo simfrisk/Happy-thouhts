@@ -124,7 +124,8 @@ export const CommentCard = ({ text,
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
-  const likeHandeler = (id,
+  const likeHandeler = (
+    id,
     setMessages,
     setRecentComments,
     apiNewId) => {
