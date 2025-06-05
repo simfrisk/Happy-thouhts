@@ -1,49 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MessageCard } from "../message-card/MessageCard"
 import { CommentCard } from "../comment-card/CommentCard";
 import moment from 'moment';
 import { Loader } from "../../components/Loader";
+import { useFetchThoughts } from "../../components/fetchThoughts";
 
-
-//#region --- FUNCTIONS ---
 export const Cards = () => {
-
-  const [userInput, setUserInput] = useState("")
-  const [messages, setMessages] = useState([])
+  const [userInput, setUserInput] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [apiNewId, setApiNewId] = useState();
   const [recentComments, setRecentComments] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [apiNewId, setApiNewId] = useState()
 
-const apiUrl = "https://happy-thoughts-zcsh.onrender.com/thoughts"
+  const apiUrl = "https://happy-thoughts-zcsh.onrender.com/thoughts";
 
-  useEffect(() => {
-    setLoading(true);
-
-    fetch(apiUrl)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-        return res.json()
-      })
-      .then(json => {
-        const normalized = json.map((item) => ({
-          id: item._id,
-          text: item.message.trim(),
-          timestamp: moment(item.createdAt).fromNow(),
-          likes: item.hearts,
-          liked: false
-        }))
-        setRecentComments(normalized)
-      })
-      .catch(error => {
-        console.error('Fetch error:', error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-
-      });
-  }, []);
+ const { loading } = useFetchThoughts(apiUrl, setRecentComments);
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -61,7 +31,6 @@ const apiUrl = "https://happy-thoughts-zcsh.onrender.com/thoughts"
 
     setMessages((prev) => [newMessage, ...prev])
     setUserInput("")
-
   }
 
   //#endregion
@@ -94,7 +63,6 @@ const apiUrl = "https://happy-thoughts-zcsh.onrender.com/thoughts"
             setMessages={setMessages}
             setRecentComments={setRecentComments}
             isNewComment={index === 0} // Optional: Only mark the very first item as new
-
           />
         ))}
 

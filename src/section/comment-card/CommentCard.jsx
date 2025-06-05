@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { likeHandler } from "../../components/likeHandler";
+import { deleteHandler } from "../../components/deleteHandler";
 
 //#region ---- STYLING ----
 
@@ -111,7 +113,8 @@ const CommentCardFooter = styled.footer`
 
 //#region ---- FUNCTIONS ----
 
-export const CommentCard = ({ text,
+export const CommentCard = ({ 
+  text,
   timestamp,
   likes,
   liked,
@@ -121,92 +124,16 @@ export const CommentCard = ({ text,
   setMessages,
   setRecentComments
 }) => {
-
+  
+  const handleLike = () => {
+    likeHandler(id, apiNewId, setMessages, setRecentComments, setIsButtonDisabled);
+  }
+  
+  const handleDelete = () => {
+    deleteHandler(id, setMessages, setRecentComments);
+  }
+  
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
-
-  const likeHandeler = (
-    id,
-    setMessages,
-    setRecentComments,
-    apiNewId) => {
-    
-    console.log("💬 Like clicked for ID:", id);
-    console.log("🔁 API New ID:", apiNewId);
-
-    setIsButtonDisabled(true)
-
-    if (setMessages) {
-      setMessages((prevMessages) =>
-        prevMessages.map((message) =>
-          message.id === id
-            ? {
-              ...message,
-              liked: !message.liked,
-              likes: message.likes + 1,
-            }
-            : message
-        )
-      );
-    }
-    if (setRecentComments) {
-      setRecentComments((prevMessages) =>
-        prevMessages.map((message) =>
-          message.id === id
-            ? {
-              ...message,
-              liked: !message.liked,
-              likes: message.likes + 1,
-            }
-            : message
-        )
-      );
-    }
-
-    if (apiNewId && apiNewId !== id) {
-      fetch(`https://happy-thoughts-zcsh.onrender.com/thoughts/${apiNewId}/like`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    }
-
-    fetch(`https://happy-thoughts-zcsh.onrender.com/thoughts/${id}/like`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-
-  };
-
-
-const deleteHandler = (id) => {
-  fetch(`https://happy-thoughts-zcsh.onrender.com/thoughts/${id}`, {
-    method: "DELETE",
-  })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error("Failed to delete thought");
-      }
-
-      if (setMessages) {
-        setMessages((prevMessages) =>
-          prevMessages.filter((message) => message.id !== id)
-        );
-      }
-
-      if (setRecentComments) {
-        setRecentComments((prevMessages) =>
-          prevMessages.filter((message) => message.id !== id)
-        );
-      }
-    })
-    .catch((error) => {
-      console.error("❌ Delete failed:", error);
-    });
-};
 
   //#endregion
 
@@ -219,16 +146,16 @@ const deleteHandler = (id) => {
           <button
             disabled={isButtonDisabled}
             className={`like-color ${liked ? "on" : "off"}`}
-            onClick={() => likeHandeler(id, setMessages, setRecentComments, apiNewId)}
+            onClick={handleLike}
           >❤️</button>
           <p>x {likes}</p>
         </div>
         <div>
-          <button
-            disabled={isButtonDisabled}
+         <button
             className={`like-color ${liked ? "on" : "off"}`}
-            onClick={() => deleteHandler(id)}
-            ><img src="./assets/Btn-trash.svg" alt="" /></button>
+            onClick={handleDelete}>
+            <img src="./assets/Btn-trash.svg" alt="" />
+          </button>
         </div>
             <p>{timestamp}</p>
       </CommentCardFooter>
