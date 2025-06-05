@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { likeHandler } from "../../components/likeHandler";
 import { deleteHandler } from "../../components/deleteHandler";
+import { editHandler } from "../../components/editHandler";
 
 //#region ---- STYLING ----
 
@@ -124,6 +125,8 @@ export const CommentCard = ({
   setMessages,
   setRecentComments
 }) => {
+
+  const [userInput, setUserInput] = useState("");
   
   const handleLike = () => {
     likeHandler(id, apiNewId, setMessages, setRecentComments, setIsButtonDisabled);
@@ -133,6 +136,12 @@ export const CommentCard = ({
     deleteHandler(id, setMessages, setRecentComments);
   }
   
+const handleEdit = (e) => {
+  e.preventDefault();
+  editHandler(id, userInput, setMessages, setRecentComments);
+  setUserInput(""); // Clear edit input
+};
+
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
   //#endregion
@@ -157,10 +166,25 @@ export const CommentCard = ({
             <img src="./assets/Btn-trash.svg" alt="" />
           </button>
         </div>
+        <div>
+            <form onSubmit={handleEdit}>
+               <label>
+                <textarea
+                  maxLength={140}
+                  value={userInput}
+                  onChange={(event) => setUserInput(event.target.value)}
+                  placeholder="Write something happy!"
+                ></textarea>
+              </label>
+              <button
+                type="submit"
+                disabled={userInput.trim().length <= 5 || userInput.trim().length >= 141}>
+                Edit
+              </button>
+            </form>
+        </div>
             <p>{timestamp}</p>
       </CommentCardFooter>
     </CommentCardWrapper>
-
-
   )
 }
