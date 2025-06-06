@@ -68,7 +68,7 @@ const CommentCardWrapper = styled.div`
     }
 
     @keyframes pulse {
-      0% {
+      0% {  
         transform: scale(1);
       }
       30% {
