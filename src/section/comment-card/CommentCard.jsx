@@ -1,8 +1,115 @@
+//#region ---- IMPORT ----
 import styled from "styled-components";
 import { useState } from "react";
 import { likeHandler } from "../../components/likeHandler";
 import { deleteHandler } from "../../components/deleteHandler";
 import { editHandler } from "../../components/editHandler";
+
+//#endregion
+
+//#region ---- CODE ----
+
+export const CommentCard = ({
+  text,
+  timestamp,
+  likes,
+  liked,
+  isNewComment,
+  id,
+  setMessages,
+  setRecentComments
+}) => {
+  const [userInput, setUserInput] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const handleLike = () => {
+    likeHandler(id, setMessages, setRecentComments, setIsButtonDisabled);
+  }
+
+  const handleDelete = () => {
+    deleteHandler(id, setMessages, setRecentComments);
+  }
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    editHandler(id, userInput, setMessages, setRecentComments);
+    setUserInput("");
+    setIsEditing(false);
+  }
+
+    const EnterPress = (e) => {
+    if (e.keyCode === 13 && !e.shiftKey) {
+      e.preventDefault();
+      handleEdit(e);
+    }
+  };
+
+  //#endregion
+
+//#region ---- RETRUN ----
+
+  return (
+  <CommentCardWrapper $isNewComment={isNewComment}>
+      {isEditing ? (
+        <form onSubmit={handleEdit}>
+          <label>
+            <textarea
+              maxLength={140}
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              onKeyDown={EnterPress}
+            ></textarea>
+          </label>
+          <div className="buttons">
+            <button type="button" onClick={() => setIsEditing(false)}>
+              <img className="icons" src="./assets/btn-cancel.svg" alt="Cancel" />
+            </button>
+            <button
+              type="submit"
+              disabled={userInput.trim().length <= 5 || userInput.trim().length >= 141}>
+              <img className="icons" src="./assets/btn-check.svg" alt="Submit" />
+            </button>
+          </div>
+        </form>
+      ) : (
+        <>
+          <CommentHeader>
+            <div className="text">
+              <p>{text}</p>
+            </div>
+            <div className="actions">
+              <button
+                onClick={() => {
+                  setIsEditing(true);
+                  setUserInput(text);
+                }}>
+                ✏️
+              </button>
+              <button onClick={handleDelete}>
+                <img src="./assets/Btn-trash.svg" alt="Delete" />
+              </button>
+            </div>
+          </CommentHeader>
+
+          <CommentCardFooter>
+            <div>
+              <button
+                disabled={isButtonDisabled}
+                className={`like-color ${liked ? "on" : "off"}`}
+                onClick={handleLike}
+              >❤️</button>
+              <p>x {likes}</p>
+            </div>
+            <p>{timestamp}</p>
+          </CommentCardFooter>
+        </>
+      )}
+    </CommentCardWrapper>
+  );
+};
+
+  //#endregion
 
 //#region ---- STYLING ----
 
@@ -17,6 +124,30 @@ const CommentCardWrapper = styled.div`
   padding: 12px 18px;
   gap: 12px;
  animation: ${({ $isNewComment }) => ($isNewComment ? 'popComment 0.6s ease-out forwards' : 'none')};
+
+ label{
+ display: flex;
+ justify-content: center;
+ }
+
+textarea{
+  width: 98%;
+  overflow: auto;
+  padding: 10px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .icons{
+    display: flex;
+    margin: auto;
+    height: 60%;
+  }
 
   @keyframes popComment {
     0% {
@@ -134,93 +265,3 @@ const CommentHeader = styled.div`
 `
 
 //#endregion
-
-//#region ---- COMPONENT ----
-
-export const CommentCard = ({
-  text,
-  timestamp,
-  likes,
-  liked,
-  isNewComment,
-  id,
-  setMessages,
-  setRecentComments
-}) => {
-  const [userInput, setUserInput] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
-  const handleLike = () => {
-    likeHandler(id, setMessages, setRecentComments, setIsButtonDisabled);
-  }
-
-  const handleDelete = () => {
-    deleteHandler(id, setMessages, setRecentComments);
-  }
-
-  const handleEdit = (e) => {
-    e.preventDefault();
-    editHandler(id, userInput, setMessages, setRecentComments);
-    setUserInput("");
-    setIsEditing(false);
-  }
-
-  return (
-  <CommentCardWrapper $isNewComment={isNewComment}>
-      {isEditing ? (
-        <form onSubmit={handleEdit}>
-          <label>
-            <textarea
-              maxLength={140}
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              placeholder="Write something happy!"
-            ></textarea>
-          </label>
-          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-            <button
-              type="submit"
-              disabled={userInput.trim().length <= 5 || userInput.trim().length >= 141}>
-              Save
-            </button>
-            <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
-          </div>
-        </form>
-      ) : (
-        <>
-          <CommentHeader>
-            <div className="text">
-              <p>{text}</p>
-            </div>
-            <div className="actions">
-              <button
-                onClick={() => {
-                  setIsEditing(true);
-                  setUserInput(text);
-                }}
-              >
-                ✏️
-              </button>
-              <button onClick={handleDelete}>
-                <img src="./assets/Btn-trash.svg" alt="Delete" />
-              </button>
-            </div>
-          </CommentHeader>
-
-          <CommentCardFooter>
-            <div>
-              <button
-                disabled={isButtonDisabled}
-                className={`like-color ${liked ? "on" : "off"}`}
-                onClick={handleLike}
-              >❤️</button>
-              <p>x {likes}</p>
-            </div>
-            <p>{timestamp}</p>
-          </CommentCardFooter>
-        </>
-      )}
-    </CommentCardWrapper>
-  );
-};

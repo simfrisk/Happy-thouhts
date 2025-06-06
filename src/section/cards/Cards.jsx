@@ -1,9 +1,13 @@
+//#region ---- IMPORT ----
 import { useState } from "react";
 import { MessageCard } from "../message-card/MessageCard";
 import { CommentCard } from "../comment-card/CommentCard";
 import { Loader } from "../../components/Loader";
 import { useFetchThoughts } from "../../components/fetchThoughts";
 
+//#endregion
+
+//#region ---- CODE ----
 export const Cards = () => {
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState([]);
@@ -20,6 +24,9 @@ export const Cards = () => {
     setMessages((prev) => [newMessage, ...prev]);
   };
 
+  //#endregion
+
+//#region ---- RETRUN ----
   return (
     <>
       <section>
@@ -48,3 +55,5 @@ export const Cards = () => {
     </>
   );
 };
+
+//#endregion
