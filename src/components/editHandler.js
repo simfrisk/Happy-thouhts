@@ -17,23 +17,19 @@ export const editHandler = async (
     const data = await response.json();
     const updatedText = data.response.message || userInput; // Fallback if backend doesn't work
 
-    // Update recentComments
-    setRecentComments((prevComments) =>
-      prevComments.map((comment) =>
-        comment._id === id || comment.id === id
-          ? { ...comment, text: updatedText }
-          : comment
-      )
-    );
+    const updateComment = (setFn) => {
+      setFn((prevItems) =>
+        prevItems.map((item) =>
+          item._id === id || item.id === id
+            ? { ...item, text: updatedText }
+            : item
+        )
+      );
+    };
 
-    // Update messages
-    setMessages((prevMessages) =>
-      prevMessages.map((msg) =>
-        msg.id === id
-          ? { ...msg, text: updatedText }
-          : msg
-      )
-    );
+    if (setRecentComments) updateComment(setRecentComments);
+    if (setMessages) updateComment(setMessages);
+
   } catch (error) {
     console.error("Error editing thought:", error);
   }
