@@ -38,7 +38,8 @@ const CommentCardWrapper = styled.div`
   }
 
   p {
-   overflow-wrap: break-word;
+    overflow-wrap: break-word;
+    margin: 0;
   }
 
   button {
@@ -56,65 +57,87 @@ const CommentCardWrapper = styled.div`
     }
 
     &:active {
-     box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.15),
-                inset 0 3px 6px rgba(0, 0, 0, 0.10);
+      box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.15),
+                  inset 0 3px 6px rgba(0, 0, 0, 0.10);
       background-color: #de8080;
-}
+    }
 
     &.like-color.on {
       background-color: pink;
-      border-radius: 50%;
       animation: pulse .7s;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
       }
-
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
-         
-        }
-        30% {
-          transform: scale(1.3);
-        }
-        50% {
-          transform: scale(0.9);
-        }
-        70% {
-          transform: scale(1.1);
-        }
-        100% {
-          transform: scale(1);
-        }
-
+      30% {
+        transform: scale(1.3);
+      }
+      50% {
+        transform: scale(0.9);
+      }
+      70% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
 
     .like-color.off {
       background-color: #eeeeee;
-}
     }
-  `
+  }
+`
 
 const CommentCardFooter = styled.footer`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+
+  p {
+    color: grey;      
+  }
+
+  div {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    gap: 10px;
+  }
+`
 
-    p {
-      color: grey;      
-    }
+const CommentHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 
-    div {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      gap: 10px;
-    }
-  `
+  .text {
+    flex: 1;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+`
 
 //#endregion
 
-//#region ---- FUNCTIONS ----
+//#region ---- COMPONENT ----
 
-export const CommentCard = ({ 
+export const CommentCard = ({
   text,
   timestamp,
   likes,
@@ -125,66 +148,80 @@ export const CommentCard = ({
   setMessages,
   setRecentComments
 }) => {
-
   const [userInput, setUserInput] = useState("");
-  
+  const [isEditing, setIsEditing] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const handleLike = () => {
     likeHandler(id, apiNewId, setMessages, setRecentComments, setIsButtonDisabled);
   }
-  
+
   const handleDelete = () => {
     deleteHandler(id, setMessages, setRecentComments);
   }
-  
-const handleEdit = (e) => {
-  e.preventDefault();
-  editHandler(id, userInput, setMessages, setRecentComments);
-  setUserInput(""); // Clear edit input
-};
 
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false)
-
-  //#endregion
+  const handleEdit = (e) => {
+    e.preventDefault();
+    editHandler(id, userInput, setMessages, setRecentComments);
+    setUserInput("");
+    setIsEditing(false);
+  }
 
   return (
     <CommentCardWrapper isNewComment={isNewComment}>
-      <p>{text}</p>
-
-      <CommentCardFooter>
-        <div>
-          <button
-            disabled={isButtonDisabled}
-            className={`like-color ${liked ? "on" : "off"}`}
-            onClick={handleLike}
-          >❤️</button>
-          <p>x {likes}</p>
-        </div>
-        <div>
-         <button
-            className={`like-color ${liked ? "on" : "off"}`}
-            onClick={handleDelete}>
-            <img src="./assets/Btn-trash.svg" alt="" />
-          </button>
-        </div>
-        <div>
-            <form onSubmit={handleEdit}>
-               <label>
-                <textarea
-                  maxLength={140}
-                  value={userInput}
-                  onChange={(event) => setUserInput(event.target.value)}
-                  placeholder="Write something happy!"
-                ></textarea>
-              </label>
+      {isEditing ? (
+        <form onSubmit={handleEdit}>
+          <label>
+            <textarea
+              maxLength={140}
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              placeholder="Write something happy!"
+            ></textarea>
+          </label>
+          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+            <button
+              type="submit"
+              disabled={userInput.trim().length <= 5 || userInput.trim().length >= 141}>
+              Save
+            </button>
+            <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
+          </div>
+        </form>
+      ) : (
+        <>
+          <CommentHeader>
+            <div className="text">
+              <p>{text}</p>
+            </div>
+            <div className="actions">
               <button
-                type="submit"
-                disabled={userInput.trim().length <= 5 || userInput.trim().length >= 141}>
-                Edit
+                onClick={() => {
+                  setIsEditing(true);
+                  setUserInput(text);
+                }}
+              >
+                ✏️
               </button>
-            </form>
-        </div>
+              <button onClick={handleDelete}>
+                <img src="./assets/Btn-trash.svg" alt="Delete" />
+              </button>
+            </div>
+          </CommentHeader>
+
+          <CommentCardFooter>
+            <div>
+              <button
+                disabled={isButtonDisabled}
+                className={`like-color ${liked ? "on" : "off"}`}
+                onClick={handleLike}
+              >❤️</button>
+              <p>x {likes}</p>
+            </div>
             <p>{timestamp}</p>
-      </CommentCardFooter>
+          </CommentCardFooter>
+        </>
+      )}
     </CommentCardWrapper>
-  )
-}
+  );
+};
