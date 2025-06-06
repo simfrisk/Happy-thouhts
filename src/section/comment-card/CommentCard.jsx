@@ -16,7 +16,7 @@ const CommentCardWrapper = styled.div`
   margin: 28px auto;
   padding: 12px 18px;
   gap: 12px;
-  animation: ${({ isNewComment }) => (isNewComment ? 'popComment 0.6s ease-out forwards' : 'none')};
+ animation: ${({ $isNewComment }) => ($isNewComment ? 'popComment 0.6s ease-out forwards' : 'none')};
 
   @keyframes popComment {
     0% {
@@ -144,7 +144,6 @@ export const CommentCard = ({
   liked,
   isNewComment,
   id,
-  apiNewId,
   setMessages,
   setRecentComments
 }) => {
@@ -153,7 +152,7 @@ export const CommentCard = ({
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleLike = () => {
-    likeHandler(id, apiNewId, setMessages, setRecentComments, setIsButtonDisabled);
+    likeHandler(id, setMessages, setRecentComments, setIsButtonDisabled);
   }
 
   const handleDelete = () => {
@@ -168,7 +167,7 @@ export const CommentCard = ({
   }
 
   return (
-    <CommentCardWrapper isNewComment={isNewComment}>
+  <CommentCardWrapper $isNewComment={isNewComment}>
       {isEditing ? (
         <form onSubmit={handleEdit}>
           <label>
