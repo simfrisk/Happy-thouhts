@@ -53,8 +53,8 @@ const ButtonWrapper = styled.div`
       left: 17px;
       top: 17px;
       display: block;
-      width: 4px;
-      height: 4px;
+      width: 5px;
+      height: 5px;
       border-radius: 2px;
       background-color: black;
       transition: all 0.1s ease-in-out;
@@ -66,8 +66,8 @@ const ButtonWrapper = styled.div`
         top: 0;
         left: 0;
         content: "";
-        width: 4px;
-        height: 4px;
+        width: 5px;
+        height: 5px;
         border-radius: 2px;
         background-color: black;
         transition: all 0.1s ease-in-out;
@@ -88,10 +88,10 @@ const ButtonWrapper = styled.div`
 
         &::before,
         &::after {
-          left: -12px;
-          top: 1px;
+          left: -7px;    /* moved closer */
+          top: 2px;      /* adjusted vertical position */
           height: 3px;
-          width: 30px;
+          width: 20px;   /* shorter length */
           border-radius: 0;
         }
 

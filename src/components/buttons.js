@@ -12,8 +12,8 @@ export const BaseButton = styled.button`
   background-color: #eeeeee;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   transition: ease 0.3s;
   display: flex;

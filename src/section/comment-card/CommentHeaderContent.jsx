@@ -23,8 +23,7 @@ export const CommentHeaderContent = ({
               setIsEditing(true);
               setUserInput(text);
               setIsShowMore(false);
-            }}
-          >
+            }}>
             ✏️
           </EditButton>
           <DeleteButton
