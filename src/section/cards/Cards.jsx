@@ -3,7 +3,7 @@ import { useState } from "react";
 import { MessageCard } from "../message-card/MessageCard";
 import { CommentCard } from "../comment-card/CommentCard";
 import { Loader } from "../../components/Loader";
-import { useFetchThoughts } from "../../components/fetchThoughts";
+import { useFetchThoughts } from "./components/fetchThoughts";
 
 //#endregion
 

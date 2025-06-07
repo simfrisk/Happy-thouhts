@@ -1,9 +1,9 @@
 //#region ---- IMPORT ----
 import styled from "styled-components";
 import { useState } from "react";
-import { likeHandler } from "../../components/likeHandler";
-import { deleteHandler } from "../../components/deleteHandler";
-import { editHandler } from "../../components/editHandler";
+import { likeHandler } from "./components/likeHandler";
+import { deleteHandler } from "./components/deleteHandler";
+import { editHandler } from "./components/editHandler";
 
 //#endregion
 

@@ -1,6 +1,6 @@
 //#region ---- IMPORT ----
 import styled from "styled-components";
-import moment from "moment";
+import { postThought } from "./components/postThought";
 import { ErrorHandeler } from "../../components/ErrorHandeler";
 
 //#endregion
@@ -18,30 +18,8 @@ const handleSubmit = (event) => {
   const trimmedInput = userInput.trim();
   if (trimmedInput === "") return;
 
-  // Send to API
-  fetch("https://happy-thoughts-zcsh.onrender.com/thoughts", {
-    method: "POST",
-    body: JSON.stringify({ message: trimmedInput }),
-    headers: { "Content-Type": "application/json" },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      const newThought = data.response;
-
-      const messageFromApi = {
-        id: newThought._id,
-        text: newThought.message,
-        timestamp: moment(newThought.createdAt).fromNow(),
-        likes: newThought.hearts,
-        liked: false,
-      };
-
-      onAddLocalMessage(messageFromApi); // ✅ only add once
-      setUserInput("");
-    })
-    .catch((err) => {
-      console.error("Failed to post to API:", err);
-    });
+  // This post "fetch" the tought to the API
+  postThought(setUserInput, trimmedInput, onAddLocalMessage);
 };
 
   const EnterPress = (e) => {
