@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { BaseButton } from "../../components/buttons";
+import { ShowMoreButton } from "../../components/buttons";
 
 export const MorInfoBtn = ({ onClick }) => {
   const [open, setOpen] = useState(false);
@@ -14,7 +14,7 @@ export const MorInfoBtn = ({ onClick }) => {
   return (
     <Container>
       <ButtonWrapper>
-        <BaseButton
+        <ShowMoreButton
           className={`btn btn-nav js-nav-toggler ${open ? "btn-nav--open" : ""}`}
           onClick={toggleOpen}
           aria-expanded={open}
@@ -22,7 +22,7 @@ export const MorInfoBtn = ({ onClick }) => {
         >
           <span className="sr-only"></span>
           <span className="nav-dots"></span>
-        </BaseButton>
+        </ShowMoreButton>
       </ButtonWrapper>
     </Container>
   );

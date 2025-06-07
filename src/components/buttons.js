@@ -32,10 +32,9 @@ export const BaseButton = styled.button`
   }
 `;
 
+export const ShowMoreButton = styled(BaseButton)``;
 export const EditButton = styled(BaseButton)``;
-
 export const DeleteButton = styled(BaseButton)``;
-
 export const LikeButton = styled(BaseButton)`
   &.on {
     background-color: pink;
