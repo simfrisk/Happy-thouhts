@@ -8,7 +8,7 @@ const pulse = keyframes`
   100% { transform: scale(1); }
 `;
 
-const BaseButton = styled.button`
+export const BaseButton = styled.button`
   background-color: #eeeeee;
   border: none;
   border-radius: 50%;

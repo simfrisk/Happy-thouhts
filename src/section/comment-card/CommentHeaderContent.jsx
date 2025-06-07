@@ -1,31 +1,46 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { EditButton, DeleteButton } from "../../components/buttons";
+import { MorInfoBtn } from "./moreInfoBtn";
 
 export const CommentHeaderContent = ({
   text,
   setIsEditing,
   setUserInput,
   handleDelete,
-}) => (
-  <Header>
-    <div className="text">
-      <p>{text}</p>
-    </div>
-    <div className="actions">
-      <EditButton
-        onClick={() => {
-          setIsEditing(true);
-          setUserInput(text);
-        }}
-      >
-        ✏️
-      </EditButton>
-      <DeleteButton onClick={handleDelete}>
-        <img src="./assets/Btn-trash.svg" alt="Delete" />
-      </DeleteButton>
-    </div>
-  </Header>
-);
+}) => {
+  const [isShowMore, setIsShowMore] = useState(false);
+
+  return (
+    <Header>
+      <div className="text">
+        <p>{text}</p>
+      </div>
+      <div className="actions">
+        <BtnVisibility isShowMore={isShowMore}>
+          <EditButton
+            onClick={() => {
+              setIsEditing(true);
+              setUserInput(text);
+              setIsShowMore(false);
+            }}
+          >
+            ✏️
+          </EditButton>
+          <DeleteButton
+            onClick={() => {
+              handleDelete();
+              setIsShowMore(false);
+            }}
+          >
+            <img src="./assets/Btn-trash.svg" alt="Delete" />
+          </DeleteButton>
+        </BtnVisibility>
+        <MorInfoBtn onClick={() => setIsShowMore((prev) => !prev)} />
+      </div>
+    </Header>
+  );
+};
 
 const Header = styled.div`
   display: flex;
@@ -46,4 +61,9 @@ const Header = styled.div`
     width: 24px;
     height: 24px;
   }
+`;
+
+const BtnVisibility = styled.div`
+  display: ${({ isShowMore }) => (isShowMore ? "flex" : "none")};
+  column-gap: 10px;
 `;
