@@ -1,26 +1,25 @@
 //#region ---- IMPORT ----
 import styled from "styled-components";
-import { postThought } from "./components/postThought";
 import { ErrorHandeler } from "../../components/ErrorHandeler";
+import { postThought } from "./components/postThought";
 
 //#endregion
 
 //#region ---- CODE ----
-export const MessageCard = ({ 
-  userInput, 
-  setUserInput, 
-  onAddLocalMessage, 
- }) => {
+export const MessageCard = ({
+  userInput,
+  setUserInput,
+  onAddLocalMessage,
+}) => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-const handleSubmit = (event) => {
-  event.preventDefault();
+    const trimmedInput = userInput.trim();
+    if (trimmedInput === "") return;
 
-  const trimmedInput = userInput.trim();
-  if (trimmedInput === "") return;
-
-  // This post "fetch" the tought to the API
-  postThought(setUserInput, trimmedInput, onAddLocalMessage);
-};
+    // This post "fetch" the tought to the API
+    postThought(setUserInput, trimmedInput, onAddLocalMessage);
+  };
 
   const EnterPress = (e) => {
     if (e.keyCode === 13 && !e.shiftKey) {
@@ -28,11 +27,9 @@ const handleSubmit = (event) => {
       handleSubmit(e);
     }
   };
-
   //#endregion
 
-//#region ---- RETRUN ----
-
+//#region ---- RETURN ----
   return (
     <form onSubmit={handleSubmit}>
       <MessageCardWrapper>
@@ -49,7 +46,10 @@ const handleSubmit = (event) => {
         <ExtraWrapper>
           <button
             type="submit"
-            disabled={userInput.trim().length <= 5 || userInput.trim().length >= 141}
+            disabled={
+              userInput.trim().length <= 5 ||
+              userInput.trim().length >= 141
+            }
           >
             ❤️ Send Happy Thoughts ❤️
           </button>
@@ -80,8 +80,8 @@ const MessageCardWrapper = styled.fieldset`
     height: 80px;
     width: 100%;
     padding: 10px 20px;
-    cursor: pointer;
     padding-bottom: 35px;
+    cursor: pointer;
   }
 
   button {
@@ -110,5 +110,4 @@ const ExtraWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-
 //#endregion

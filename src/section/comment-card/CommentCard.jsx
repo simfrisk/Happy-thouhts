@@ -1,14 +1,16 @@
 //#region ---- IMPORT ----
 import styled from "styled-components";
 import { useState } from "react";
-import { likeHandler } from "./components/likeHandler";
 import { deleteHandler } from "./components/deleteHandler";
 import { editHandler } from "./components/editHandler";
+import { likeHandler } from "./components/likeHandler";
+import { CommentEditForm } from "./CommentEditForm";
+import { CommentHeaderContent } from "./CommentHeaderContent";
+import { CommentFooter } from "./CommentFooter";
 
 //#endregion
 
 //#region ---- CODE ----
-
 export const CommentCard = ({
   text,
   timestamp,
@@ -17,28 +19,28 @@ export const CommentCard = ({
   isNewComment,
   id,
   setMessages,
-  setRecentComments
+  setRecentComments,
 }) => {
-  const [userInput, setUserInput] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
-  const handleLike = () => {
-    likeHandler(id, setMessages, setRecentComments, setIsButtonDisabled);
-  }
+  const [isEditing, setIsEditing] = useState(false);
+  const [userInput, setUserInput] = useState("");
 
   const handleDelete = () => {
     deleteHandler(id, setMessages, setRecentComments);
-  }
+  };
 
   const handleEdit = (e) => {
     e.preventDefault();
     editHandler(id, userInput, setMessages, setRecentComments);
     setUserInput("");
     setIsEditing(false);
-  }
+  };
 
-    const EnterPress = (e) => {
+  const handleLike = () => {
+    likeHandler(id, setMessages, setRecentComments, setIsButtonDisabled);
+  };
+
+  const EnterPress = (e) => {
     if (e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault();
       handleEdit(e);
@@ -47,72 +49,41 @@ export const CommentCard = ({
 
   //#endregion
 
-//#region ---- RETRUN ----
-
+//#region ---- RETURN ----
   return (
-  <CommentCardWrapper $isNewComment={isNewComment}>
+    <CommentCardWrapper $isNewComment={isNewComment}>
       {isEditing ? (
-        <form onSubmit={handleEdit}>
-          <label>
-            <textarea
-              maxLength={140}
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              onKeyDown={EnterPress}
-            ></textarea>
-          </label>
-          <div className="buttons">
-            <button type="button" onClick={() => setIsEditing(false)}>
-              <img className="icons" src="./assets/btn-cancel.svg" alt="Cancel" />
-            </button>
-            <button
-              type="submit"
-              disabled={userInput.trim().length <= 5 || userInput.trim().length >= 141}>
-              <img className="icons" src="./assets/btn-check.svg" alt="Submit" />
-            </button>
-          </div>
-        </form>
+        <CommentEditForm
+          userInput={userInput}
+          setUserInput={setUserInput}
+          handleEdit={handleEdit}
+          EnterPress={EnterPress}
+          setIsEditing={setIsEditing}
+        />
       ) : (
         <>
-          <CommentHeader>
-            <div className="text">
-              <p>{text}</p>
-            </div>
-            <div className="actions">
-              <button
-                onClick={() => {
-                  setIsEditing(true);
-                  setUserInput(text);
-                }}>
-                ✏️
-              </button>
-              <button onClick={handleDelete}>
-                <img src="./assets/Btn-trash.svg" alt="Delete" />
-              </button>
-            </div>
-          </CommentHeader>
-
-          <CommentCardFooter>
-            <div>
-              <button
-                disabled={isButtonDisabled}
-                className={`like-color ${liked ? "on" : "off"}`}
-                onClick={handleLike}
-              >❤️</button>
-              <p>x {likes}</p>
-            </div>
-            <p>{timestamp}</p>
-          </CommentCardFooter>
+          <CommentHeaderContent
+            text={text}
+            setIsEditing={setIsEditing}
+            setUserInput={setUserInput}
+            handleDelete={handleDelete}
+          />
+          <CommentFooter
+            likes={likes}
+            liked={liked}
+            timestamp={timestamp}
+            isButtonDisabled={isButtonDisabled}
+            handleLike={handleLike}
+          />
         </>
       )}
     </CommentCardWrapper>
   );
 };
 
-  //#endregion
+//#endregion
 
 //#region ---- STYLING ----
-
 const CommentCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -123,31 +94,8 @@ const CommentCardWrapper = styled.div`
   margin: 28px auto;
   padding: 12px 18px;
   gap: 12px;
- animation: ${({ $isNewComment }) => ($isNewComment ? 'popComment 0.6s ease-out forwards' : 'none')};
-
- label{
- display: flex;
- justify-content: center;
- }
-
-textarea{
-  width: 98%;
-  overflow: auto;
-  padding: 10px;
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 10px;
-  }
-
-  .icons{
-    display: flex;
-    margin: auto;
-    height: 60%;
-  }
+  animation: ${({ $isNewComment }) =>
+    $isNewComment ? "popComment 0.6s ease-out forwards" : "none"};
 
   @keyframes popComment {
     0% {
@@ -165,103 +113,13 @@ textarea{
   }
 
   @media (min-width: 640px) {
-    width: 620px;    
+    width: 620px;
   }
 
   p {
     overflow-wrap: break-word;
     margin: 0;
   }
-
-  button {
-    background-color: #eeeeee;
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: ease .3s;
-
-    &:hover {
-      background-color: #f0aeae;
-      transform: scale(1.03);
-    }
-
-    &:active {
-      box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.15),
-                  inset 0 3px 6px rgba(0, 0, 0, 0.10);
-      background-color: #de8080;
-    }
-
-    &.like-color.on {
-      background-color: pink;
-      animation: pulse .7s;
-    }
-
-    @keyframes pulse {
-      0% {  
-        transform: scale(1);
-      }
-      30% {
-        transform: scale(1.3);
-      }
-      50% {
-        transform: scale(0.9);
-      }
-      70% {
-        transform: scale(1.1);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    .like-color.off {
-      background-color: #eeeeee;
-    }
-  }
-`
-
-const CommentCardFooter = styled.footer`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  align-content: center;
-
-  p {
-    color: grey;      
-  }
-
-  div {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    align-content: center;
-    gap: 10px;
-  }
-`
-
-const CommentHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-
-  .text {
-    flex: 1;
-  }
-
-  .actions {
-    display: flex;
-    gap: 10px;
-  }
-
-  img {
-    width: 24px;
-    height: 24px;
-  }
-`
+`;
 
 //#endregion

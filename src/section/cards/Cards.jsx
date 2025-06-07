@@ -1,17 +1,17 @@
 //#region ---- IMPORT ----
 import { useState } from "react";
-import { MessageCard } from "../message-card/MessageCard";
-import { CommentCard } from "../comment-card/CommentCard";
-import { Loader } from "../../components/Loader";
-import { useFetchThoughts } from "./components/fetchThoughts";
 
+import { Loader } from "../../components/Loader";
+import { CommentCard } from "../comment-card/CommentCard";
+import { MessageCard } from "../message-card/MessageCard";
+import { useFetchThoughts } from "./components/fetchThoughts";
 //#endregion
 
 //#region ---- CODE ----
 export const Cards = () => {
-  const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [recentComments, setRecentComments] = useState([]);
+  const [userInput, setUserInput] = useState("");
 
   const apiUrl = "https://happy-thoughts-zcsh.onrender.com/thoughts";
   const { loading } = useFetchThoughts(apiUrl, setRecentComments);
@@ -23,10 +23,9 @@ export const Cards = () => {
   const handleAddLocalMessage = (newMessage) => {
     setMessages((prev) => [newMessage, ...prev]);
   };
-
   //#endregion
 
-//#region ---- RETRUN ----
+  //#region ---- RETURN ----
   return (
     <>
       <section>
@@ -55,5 +54,4 @@ export const Cards = () => {
     </>
   );
 };
-
 //#endregion
