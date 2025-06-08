@@ -6,14 +6,17 @@ import styled from "styled-components";
 export const Footer = () => {
   return (
     <FooterWrapper>
-      <p>Created by: Simon & Sofia</p>
+
+      <p>page 1, 2, 3</p>
+
+      {/* <p>Created by: Simon & Sofia</p>
       <a href="https://github.com/solen80a/js-project-happy-thoughts">
         <img
           src="./assets/Btn - github.svg"
           alt="Github icon to access the code"
           target="_blank"
         />
-      </a>
+      </a> */}
     </FooterWrapper>
   );
 };
@@ -24,7 +27,7 @@ const FooterWrapper = styled.footer`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: left;
+  justify-content: center;
   gap: 12px;
   font-size: 15px;
   background-color: pink;

@@ -1,5 +1,6 @@
 //#region ---- IMPORT ----
 import { useState } from "react";
+import { useParams, Link } from "react-router-dom";
 
 import { Loader } from "../../components/Loader";
 import { CommentCard } from "../comment-card/CommentCard";
@@ -13,7 +14,19 @@ export const Cards = () => {
   const [recentComments, setRecentComments] = useState([]);
   const [userInput, setUserInput] = useState("");
 
-  const apiUrl = "https://happy-thoughts-zcsh.onrender.com/thoughts";
+  const { sort } = useParams(); 
+  console.log(sort)
+
+  // const [pageNumber, setPageNumber] = useState(1);
+
+  const apiUrl =
+    sort === "sort"
+      ? `https://happy-thoughts-zcsh.onrender.com/thoughts/?sort=hearts`
+      : "https://happy-thoughts-zcsh.onrender.com/thoughts?page=1"
+   
+
+  // const {pageNumber} = findPageNumber()
+
   const { loading } = useFetchThoughts(apiUrl, setRecentComments);
 
   if (loading) {
@@ -28,6 +41,7 @@ export const Cards = () => {
   //#region ---- RETURN ----
   return (
     <>
+
       <section>
         <MessageCard
           userInput={userInput}

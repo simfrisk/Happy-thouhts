@@ -3,6 +3,7 @@ import moment from "moment";
 
 export const useFetchThoughts = (url, setRecentComments) => {
   const [loading, setLoading] = useState(false);
+  // const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     setLoading(true);
@@ -15,6 +16,7 @@ export const useFetchThoughts = (url, setRecentComments) => {
         return res.json();
       })
       .then((json) => {
+        console.log(json)
         const normalized = json.map((item) => ({
           id: item._id,
           text: item.message.trim(),
@@ -23,6 +25,8 @@ export const useFetchThoughts = (url, setRecentComments) => {
           liked: false,
         }));
         setRecentComments(normalized);
+        // setTotalPages(json.totalPages);
+        // console.log("there are", json.totalPages);
       })
       .catch((error) => {
         console.error("Fetch error:", error.message);
