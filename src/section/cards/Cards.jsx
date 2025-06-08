@@ -9,7 +9,7 @@ import { useFetchThoughts } from "./components/fetchThoughts";
 //#endregion
 
 //#region ---- CODE ----
-export const Cards = () => {
+export const  Cards = () => {
   const [messages, setMessages] = useState([]);
   const [recentComments, setRecentComments] = useState([]);
   const [userInput, setUserInput] = useState("");
