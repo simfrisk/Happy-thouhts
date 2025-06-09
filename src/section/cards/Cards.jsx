@@ -14,16 +14,23 @@ export const  Cards = () => {
   const [recentComments, setRecentComments] = useState([]);
   const [userInput, setUserInput] = useState("");
 
-  const { sort } = useParams(); 
+const { sort, value } = useParams();
   console.log(sort)
 
   // const [pageNumber, setPageNumber] = useState(1);
 
-  const apiUrl =
-    sort === "sort"
-      ? `https://happy-thoughts-zcsh.onrender.com/thoughts/?sort=hearts`
-      : "https://happy-thoughts-zcsh.onrender.com/thoughts?page=1"
-   
+let apiUrl;
+
+switch (sort) {
+  case "sort":
+    apiUrl = "https://happy-thoughts-zcsh.onrender.com/thoughts/?sort=hearts";
+    break;
+  case "minHearts":
+    apiUrl = `https://happy-thoughts-zcsh.onrender.com/thoughts?minHearts=${value}`;
+    break;
+  default:
+    apiUrl = "https://happy-thoughts-zcsh.onrender.com/thoughts?page=1";
+}
 
   // const {pageNumber} = findPageNumber()
 

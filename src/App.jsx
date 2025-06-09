@@ -13,6 +13,7 @@ export const App = () => {
         <Route element={<MainLayout />}>
           <Route path="/thoughts" element={<Cards />} />
           <Route path="/thoughts/:sort" element={<Cards />} />
+          <Route path="/thoughts/:sort/:value" element={<Cards />} />
         </Route>
       </Routes>
     </BrowserRouter>
