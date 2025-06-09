@@ -1,6 +1,6 @@
 //#region ---- IMPORT ----
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { Loader } from "../../components/Loader";
 import { CommentCard } from "../comment-card/CommentCard";

@@ -5,7 +5,7 @@ import { BiggerButton } from "../components/buttons"
 export const Sorting = () => {
   return (
     <Container>
-      <StyledNavLink to="/">
+      <StyledNavLink to="/thoughts">
       <BiggerButton>Last added</BiggerButton>
       </StyledNavLink>
       <StyledNavLink to="/thoughts/sort">

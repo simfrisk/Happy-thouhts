@@ -1,26 +1,20 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-
-import { Sorting } from "./section/Sorting";
-import { Cards } from "./section/cards/Cards"
-import { Titlte } from "./styling/Typography"
-import { Footer } from "./section/Footer"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LogIn } from "./section/log-in/logIn";
+import { SignUp } from "./section/sign-up/signUp";
+import { Cards } from "./section/cards/Cards";
+import { MainLayout } from "./section/main-layout/mainLayout";
 
 export const App = () => {
-
   return (
-    <>
     <BrowserRouter>
-      <Titlte>Happy Thoughts</Titlte>
-      <Sorting />
-      
       <Routes>
-        <Route path="/" element={<Cards />} />  
-        <Route path="/thoughts/:sort" element={<Cards />} />
+        <Route path="/" element={<LogIn />} />
+        <Route path="/signUp" element={<SignUp />} />
+        <Route element={<MainLayout />}>
+          <Route path="/thoughts" element={<Cards />} />
+          <Route path="/thoughts/:sort" element={<Cards />} />
+        </Route>
       </Routes>
-
-      <Footer />
-      </BrowserRouter>
-    </>
-  )
-}
-
+    </BrowserRouter>
+  );
+};
