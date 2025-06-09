@@ -81,6 +81,8 @@ const Box = styled.div`
 
   button {
     width: 100%;
+    height: 40px;
+    margin-top: 25px;
     background-color: pink;
   }
 `;

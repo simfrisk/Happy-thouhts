@@ -57,15 +57,20 @@ const Wrapper = styled.div`
   p {
   color: gray;
   }
+
+    @media (min-width: 640px) {
+      
+      h2 {
+        margin-bottom: 40px;
+      }
+}
+
 `;
 
 const Box = styled.div`
   height: 620px;
   width: 320px;
-  background-color: #f3f3f3;
   text-align: center;
-  border: solid 1px black;
-  border-radius: 4px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -86,6 +91,8 @@ const Box = styled.div`
 
   button {
     width: 100%;
+    height: 40px;
+    margin-top: 25px;
     background-color: pink;
   }
 `;
