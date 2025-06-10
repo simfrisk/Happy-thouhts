@@ -9,6 +9,7 @@ const pulse = keyframes`
 `;
 
 export const BaseButton = styled.button`
+  font-family: "Quicksand", sans-serif;
   background-color: #eeeeee;
   border: none;
   border-radius: 50%;

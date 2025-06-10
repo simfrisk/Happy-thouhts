@@ -87,6 +87,7 @@ const Box = styled.div`
     height: 40px;
     margin-top: 25px;
     background-color: pink;
+
   }
 `;
 
@@ -104,7 +105,7 @@ const InputGroup = styled.div`
 const StyledInput = styled.input`
   width: 100%;
   height: 40px;
-  padding: 8px;
+  padding: 10px 12px;
 `;
 
 const NavSignUp = styled(Link) `

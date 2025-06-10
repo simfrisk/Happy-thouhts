@@ -88,9 +88,10 @@ const CommentCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: left;
-  border: 1px solid #000;
-  box-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
-  width: 320px;
+  border: 1px solid #00000039;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 1px 1px 2px;
+  width: 90%;
   margin: 28px auto;
   padding: 12px 18px;
   gap: 12px;

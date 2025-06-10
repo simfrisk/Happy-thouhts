@@ -68,13 +68,14 @@ const MessageCardWrapper = styled.fieldset`
   flex-direction: column;
   justify-content: center;
   background-color: #eeeeee;
-  border: 1px solid black;
-  border-radius: 2px;
-  width: 320px;
+  border: 2px solid #00000027;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 1px 1px 2px;
+  width: 90%;
   margin: 0 auto;
   padding: 12px 18px;
   gap: 12px;
-  box-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+  // box-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
 
   textarea {
     height: 80px;
