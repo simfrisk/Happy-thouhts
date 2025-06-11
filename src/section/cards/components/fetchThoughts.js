@@ -8,7 +8,12 @@ export const useFetchThoughts = (url, setRecentComments) => {
   useEffect(() => {
     setLoading(true);
 
-    fetch(url)
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("accessToken"),
+      },
+    })
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);

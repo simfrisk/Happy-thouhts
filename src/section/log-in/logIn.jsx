@@ -25,9 +25,12 @@ export const LogIn = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
-          setFormData({ email: "", password: "" });
+          if(data.accessToken) {
+          localStorage.setItem("accessToken", data.accessToken);
           navigate("/thoughts");
+        } else {
+          alert("Login failed.");
+        }
         })
         .catch((err) => {
           console.error("Failed to post to API:", err);
