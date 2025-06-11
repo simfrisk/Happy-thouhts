@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ShowMoreButton } from "../../components/buttons";
 
 export const MorInfoBtn = ({ onClick }) => {
+  
   const [open, setOpen] = useState(false);
 
   //This makes the button toogle the vissiblity of the other buttons in the Header

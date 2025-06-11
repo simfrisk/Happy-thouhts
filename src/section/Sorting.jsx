@@ -1,9 +1,17 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiggerButton } from "../components/buttons";
 
 export const Sorting = () => {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/");
+  };
+
   const [value, setValue] = useState(50);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -35,6 +43,10 @@ export const Sorting = () => {
           />
           <StyledNavLink to={`/thoughts/minHearts/${value}`} onClick={() => setMenuOpen(false)}>
             <BiggerButton>Sort</BiggerButton>
+          </StyledNavLink>
+
+          <StyledNavLink to="/" onClick={handleLogout}>
+            <BiggerButton>Log Out</BiggerButton>
           </StyledNavLink>
         </form>
       </Menu>
