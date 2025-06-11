@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BiggerButton } from "../components/buttons";
+import { BiggerButton } from "../../components/buttons";
 
 export const Sorting = () => {
 
@@ -27,9 +27,14 @@ export const Sorting = () => {
         <StyledNavLink to="/thoughts" onClick={() => setMenuOpen(false)}>
           <BiggerButton>Last added</BiggerButton>
         </StyledNavLink>
+
+         <BreakLine />
+
         <StyledNavLink to="/thoughts/sort" onClick={() => setMenuOpen(false)}>
           <BiggerButton>By hearts</BiggerButton>
         </StyledNavLink>
+
+        <BreakLine />
 
         <form>
           <label htmlFor="rangeInput">Min Hearts: {value}</label>
@@ -44,6 +49,8 @@ export const Sorting = () => {
           <StyledNavLink to={`/thoughts/minHearts/${value}`} onClick={() => setMenuOpen(false)}>
             <BiggerButton>Sort</BiggerButton>
           </StyledNavLink>
+
+          <BreakLine />
 
           <StyledNavLink to="/" onClick={handleLogout}>
             <BiggerButton>Log Out</BiggerButton>
@@ -115,3 +122,10 @@ const StyledNavLink = styled(Link)`
   text-decoration: none;
   text-align: left;
 `;
+
+const BreakLine = styled.div `
+background-color: #ffffff;
+width: 100%;
+height: 1px;
+margin: 10px 0;
+`

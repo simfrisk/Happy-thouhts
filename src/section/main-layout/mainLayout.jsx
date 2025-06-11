@@ -1,7 +1,7 @@
 // components/MainLayout.tsx
 import { Outlet } from "react-router";
 import { Titlte } from "../../styling/Typography"
-import { Sorting } from "../Sorting"
+import { Sorting } from "../header/Sorting";
 import { Footer } from "../Footer"
 
 export const MainLayout = () => {
