@@ -76,10 +76,6 @@ const Burger = styled.button`
     background: black;
     border-radius: 10px;
   }
-
-  @media(min-width: 640px) {
-    display: none;
-  }
 `;
 
 const Menu = styled.div`
@@ -97,15 +93,9 @@ const Menu = styled.div`
   z-index: 10;
 
   @media(min-width: 640px) {
-    position: static;
-    flex-direction: row;
     justify-content: center;
-    align-items: center;
-    height: auto;
-    width: 100%;
-    background: none;
-    transition: none;
-    padding: 0;
+    align-items: flex-start;
+    width: 300px;
     gap: 20px;
   }
 
