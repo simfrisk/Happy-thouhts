@@ -1,8 +1,42 @@
 import styled from "styled-components";
 import { BiggerButton } from "../../components/buttons";
 import { Link } from "react-router";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const LogIn = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: "", password: "" });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const { email, password } = formData;
+
+    if (email && password) {
+      fetch("https://happy-thoughts-zcsh.onrender.com/sessions", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setFormData({ email: "", password: "" });
+          navigate("/thoughts");
+        })
+        .catch((err) => {
+          console.error("Failed to post to API:", err);
+        });
+    } else {
+      alert("Please fill in all fields.");
+    }
+  };
+
   return (
     <Wrapper>
       <Box>
@@ -12,25 +46,35 @@ export const LogIn = () => {
           <p>It’s great to see you.</p>
         </div>
 
-        <form action="">
+        <form onSubmit={handleLogin}>
           <fieldset>
             <InputGroup>
               <label>
                 <p>Email</p>
-                <StyledInput type="text" placeholder="you@example.com" />
+                <StyledInput
+                  type="text"
+                  name="email"
+                  placeholder="you@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
               </label>
             </InputGroup>
 
             <InputGroup>
               <label>
                 <p>Password</p>
-                <StyledInput type="password" placeholder="password" />
+                <StyledInput
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
               </label>
             </InputGroup>
             
-              <NavLogIn to={"/thoughts"}>
               <BiggerButton type="submit">Log In</BiggerButton>
-              </NavLogIn>
           </fieldset>
         </form>
         <p>Don’t have an account? <NavSignUp to={"/signUp"}>Get started.</NavSignUp></p>

@@ -46,8 +46,8 @@ export const Sorting = () => {
 
 const Burger = styled.button`
   position: fixed;
-  top: 15px;
-  right: 15px;
+  top: 30px;
+  left: 20px;
   z-index: 20;
   display: flex;
   flex-direction: column;
@@ -73,7 +73,7 @@ const Burger = styled.button`
 const Menu = styled.div`
   position: fixed;
   top: 0;
-  left: ${({ open }) => (open ? '0' : '100%')};
+  left: ${({ open }) => (open ? '0' : '-100%')};
   width: 100vw;
   height: 100vh;
   background: pink;
