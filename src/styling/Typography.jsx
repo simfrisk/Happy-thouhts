@@ -5,6 +5,8 @@ export const Titlte = styled(Link)`
 text-align: center;
 text-decoration: none;
 color: black;
+ display: inline-block; 
+  width: fit-content; 
 
 
  @media (min-width: 640px) {
