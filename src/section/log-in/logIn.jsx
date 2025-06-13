@@ -26,11 +26,12 @@ export const LogIn = () => {
         .then((res) => res.json())
         .then((data) => {
           if(data.accessToken) {
-          localStorage.setItem("accessToken", data.accessToken);
-          navigate("/thoughts");
-        } else {
-          alert("Login failed.");
-        }
+            localStorage.removeItem("accessToken");
+            localStorage.setItem("accessToken", data.accessToken);
+            navigate("/thoughts");
+          } else {
+            alert("Login failed.");
+          }
         })
         .catch((err) => {
           console.error("Failed to post to API:", err);
