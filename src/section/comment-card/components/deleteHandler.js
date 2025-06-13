@@ -5,6 +5,9 @@ export const deleteHandler = (
 ) => {
   fetch(`https://happy-thoughts-zcsh.onrender.com/thoughts/${id}`, {
     method: "DELETE",
+    headers: {
+      "Authorization": localStorage.getItem("accessToken"),
+    },
   })
     .then((res) => {
       if (!res.ok) {

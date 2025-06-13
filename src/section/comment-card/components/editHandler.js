@@ -10,6 +10,7 @@ export const editHandler = async (
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("accessToken"),
       },
       body: JSON.stringify({ newMessage: userInput }),
     });
