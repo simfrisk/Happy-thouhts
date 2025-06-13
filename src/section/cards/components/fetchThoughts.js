@@ -38,6 +38,7 @@ export const useFetchThoughts = (url, setRecentComments) => {
       })
       .finally(() => {
         setLoading(false);
+        // console.log(localStorage)
       });
   }, [url]);
 

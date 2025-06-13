@@ -4,7 +4,10 @@ export const postThought = (setUserInput, trimmedInput, onAddLocalMessage) => {
   fetch("https://happy-thoughts-zcsh.onrender.com/thoughts", {
     method: "POST",
     body: JSON.stringify({ message: trimmedInput }),
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": localStorage.getItem("accessToken"),
+    },
   })
     .then((res) => res.json())
     .then((data) => {
