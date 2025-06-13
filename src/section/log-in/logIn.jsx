@@ -3,7 +3,7 @@ import { BiggerButton } from "../../components/buttons";
 import { Link } from "react-router";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLoginValidation } from "../../components/useLoginValidation";
+import { useLoginValidation } from "./useLoginValidation";
 
 export const LogIn = () => {
   const navigate = useNavigate();

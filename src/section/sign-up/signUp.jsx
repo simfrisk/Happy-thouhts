@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { BiggerButton } from "../../components/buttons";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSignUpValidation } from "./component/useSignUpValidation";
 
 export const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -10,38 +12,39 @@ export const SignUp = () => {
     password: "",
   });
 
-  const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData((prevFormData) => ({
-    ...prevFormData,
-    [name]: value,
-  }));
-};
+  const { validate, emailError, nameError, passwordError } = useSignUpValidation();
 
   const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
   const handleSignUp = (e) => {
     e.preventDefault();
+
+    if (!validate(formData)) return; // Run validation, exit if fails
+
     const { email, name, password } = formData;
 
-    if (email && name && password) {
-      fetch("https://happy-thoughts-zcsh.onrender.com/users", {
-        method: "POST",
-        body: JSON.stringify({ email, name, password }),
-        headers: { "Content-Type": "application/json" },
+    fetch("https://happy-thoughts-zcsh.onrender.com/users", {
+      method: "POST",
+      body: JSON.stringify({ email, name, password }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setFormData({ email: "", name: "", password: "" });
+        navigate("/");
       })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setFormData({ email: "", name: "", password: "" });
-          navigate("/");
-        })
-        .catch((err) => {
-          console.error("Failed to post to API:", err);
-        });
-    } else {
-      alert("Please fill in all fields.");
-    }
+      .catch((err) => {
+        console.error("Failed to post to API:", err);
+      });
   };
 
   return (
@@ -64,6 +67,7 @@ export const SignUp = () => {
                   onChange={handleChange}
                 />
               </label>
+              {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
             </InputGroup>
 
             <InputGroup>
@@ -77,6 +81,7 @@ export const SignUp = () => {
                   onChange={handleChange}
                 />
               </label>
+              {nameError && <ErrorMessage>{nameError}</ErrorMessage>}
             </InputGroup>
 
             <InputGroup>
@@ -90,6 +95,7 @@ export const SignUp = () => {
                   onChange={handleChange}
                 />
               </label>
+              {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
             </InputGroup>
 
             <BiggerButton type="submit">Sign up</BiggerButton>
@@ -160,6 +166,7 @@ const InputGroup = styled.div`
   margin-bottom: 15px;
   display: flex;
   justify-content: flex-start;
+  flex-direction: column;
   width: 100%;
 `;
 
@@ -176,4 +183,17 @@ const NavSignUp = styled(Link)`
 const NavLogIn = styled(Link)`
   color: gray;
   text-decoration: none;
+`;
+
+const ErrorMessage = styled.p `
+  //Would not work without important
+  color: red !important;
+  margin-top: 10px;
+`
+
+const GeneralError = styled.p`
+  //Would not work without important
+  color: red !important;
+  margin-top: 10px;
+  text-align: center;
 `;
