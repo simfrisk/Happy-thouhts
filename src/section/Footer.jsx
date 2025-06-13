@@ -1,22 +1,31 @@
 //#region ---- IMPORT ----
 import styled from "styled-components";
+import { useThoughtStore } from "../store/thoughtStore";
 //#endregion
 
 //#region ---- COMPONENT ----
 export const Footer = () => {
+  const totalPages = useThoughtStore((state) => state.totalPages);
+  const currentPage = useThoughtStore((state) => state.currentPage);
+  const setCurrentPage = useThoughtStore((state) => state.setCurrentPage);
+
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
   return (
     <FooterWrapper>
-
-      <p>page 1, 2, 3</p>
-
-      {/* <p>Created by: Simon & Sofia</p>
-      <a href="https://github.com/solen80a/js-project-happy-thoughts">
-        <img
-          src="./assets/Btn - github.svg"
-          alt="Github icon to access the code"
-          target="_blank"
-        />
-      </a> */}
+      <p>Pages:</p>
+      {pages.map((page) => (
+        <button
+          key={page}
+          style={{
+            fontWeight: page === currentPage ? "bold" : "normal",
+            textDecoration: page === currentPage ? "underline" : "none",
+          }}
+          onClick={() => setCurrentPage(page)}
+        >
+          {page}
+        </button>
+      ))}
     </FooterWrapper>
   );
 };
@@ -42,6 +51,11 @@ const FooterWrapper = styled.footer`
 
   @media (min-width: 640px) {
     width: 620px;
+  }
+
+  button {
+    border: none;
+    background-color: transparent;
   }
 
   img {

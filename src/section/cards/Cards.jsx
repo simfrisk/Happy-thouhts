@@ -6,6 +6,7 @@ import { Loader } from "../../components/Loader";
 import { CommentCard } from "../comment-card/CommentCard";
 import { MessageCard } from "../message-card/MessageCard";
 import { useFetchThoughts } from "./components/fetchThoughts";
+import { useThoughtStore } from "../../store/thoughtStore";
 //#endregion
 
 //#region ---- CODE ----
@@ -14,8 +15,8 @@ export const  Cards = () => {
   const [recentComments, setRecentComments] = useState([]);
   const [userInput, setUserInput] = useState("");
 
-const { sort, value } = useParams();
-  console.log(sort)
+  const { sort, value } = useParams();
+  const currentPage = useThoughtStore((state) => state.currentPage);
 
   // const [pageNumber, setPageNumber] = useState(1);
 
@@ -29,7 +30,7 @@ switch (sort) {
     apiUrl = `https://happy-thoughts-zcsh.onrender.com/thoughts?minHearts=${value}`;
     break;
   default:
-    apiUrl = "https://happy-thoughts-zcsh.onrender.com/thoughts?page=1";
+    apiUrl = `https://happy-thoughts-zcsh.onrender.com/thoughts?page=${currentPage}`;
 }
 
   // const {pageNumber} = findPageNumber()

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { useThoughtStore } from "../../../store/thoughtStore"
 import moment from "moment";
 
 export const useFetchThoughts = (url, setRecentComments) => {
   const [loading, setLoading] = useState(false);
-  // const [totalPages, setTotalPages] = useState(0);
+  const setTotalPages = useThoughtStore((state) => state.setTotalPages);
 
   useEffect(() => {
     setLoading(true);
@@ -21,8 +22,10 @@ export const useFetchThoughts = (url, setRecentComments) => {
         return res.json();
       })
       .then((json) => {
-        console.log(json)
-        const normalized = json.map((item) => ({
+        const { pagedResults, totalPages } = json;
+
+        // ✅ Use pagedResults here, not json
+        const normalized = pagedResults.map((item) => ({
           id: item._id,
           text: item.message.trim(),
           timestamp: moment(item.createdAt).fromNow(),
@@ -30,18 +33,18 @@ export const useFetchThoughts = (url, setRecentComments) => {
           liked: false,
           createdByUser: item.createdBy === localStorage.getItem("userId"),
         }));
+
         setRecentComments(normalized);
-        // setTotalPages(json.totalPages);
-        // console.log("there are", json.totalPages);
+        setTotalPages(totalPages);
+        console.log("Total pages:", totalPages);
       })
       .catch((error) => {
         console.error("Fetch error:", error.message);
       })
       .finally(() => {
         setLoading(false);
-        // console.log(localStorage)
       });
-  }, [url]);
+  }, [url, setRecentComments]);
 
   return { loading };
 };
