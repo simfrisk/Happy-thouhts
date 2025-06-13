@@ -41,6 +41,7 @@ switch (sort) {
   }
 
   const handleAddLocalMessage = (newMessage) => {
+    newMessage.createdByUser = true
     setMessages((prev) => [newMessage, ...prev]);
   };
   //#endregion
@@ -69,6 +70,7 @@ switch (sort) {
             setMessages={setMessages}
             setRecentComments={setRecentComments}
             isNewComment={index === 0}
+            createdByUser={item.createdByUser}
           />
         ))}
       </section>

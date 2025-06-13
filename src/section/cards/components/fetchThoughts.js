@@ -28,6 +28,7 @@ export const useFetchThoughts = (url, setRecentComments) => {
           timestamp: moment(item.createdAt).fromNow(),
           likes: item.hearts,
           liked: false,
+          createdByUser: item.createdBy === localStorage.getItem("userId"),
         }));
         setRecentComments(normalized);
         // setTotalPages(json.totalPages);

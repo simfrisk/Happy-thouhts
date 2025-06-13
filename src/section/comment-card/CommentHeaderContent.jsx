@@ -8,6 +8,7 @@ export const CommentHeaderContent = ({
   setIsEditing,
   setUserInput,
   handleDelete,
+  createdByUser,
 }) => {
   const [isShowMore, setIsShowMore] = useState(false);
 
@@ -16,27 +17,32 @@ export const CommentHeaderContent = ({
       <div className="text">
         <p>{text}</p>
       </div>
-      <div className="actions">
-        <BtnVisibility isShowMore={isShowMore}>
-          <EditButton
-            onClick={() => {
-              setIsEditing(true);
-              setUserInput(text);
-              setIsShowMore(false);
-            }}>
-            ✏️
-          </EditButton>
-          <DeleteButton
-            onClick={() => {
-              handleDelete();
-              setIsShowMore(false);
-            }}
-          >
-            <img src="./assets/Btn-trash.svg" alt="Delete" />
-          </DeleteButton>
-        </BtnVisibility>
-        <MorInfoBtn onClick={() => setIsShowMore((prev) => !prev)} />
-      </div>
+      {createdByUser && (
+        <div className="actions">
+          <BtnVisibility isShowMore={isShowMore}>
+            <EditButton
+              onClick={() => {
+                setIsEditing(true);
+                setUserInput(text);
+                setIsShowMore(false);
+              }}
+            >
+              ✏️
+            </EditButton>
+
+            <DeleteButton
+              onClick={() => {
+                handleDelete();
+                setIsShowMore(false);
+              }}
+            >
+              <img src="./assets/Btn-trash.svg" alt="Delete" />
+            </DeleteButton>
+          </BtnVisibility>
+
+          <MorInfoBtn onClick={() => setIsShowMore((prev) => !prev)} />
+        </div>
+      )}
     </Header>
   );
 };

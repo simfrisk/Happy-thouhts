@@ -32,8 +32,8 @@ const FooterWrapper = styled.footer`
   font-size: 15px;
   background-color: pink;
   border: 1px solid #000;
-  box-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
-  width: 250px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 1px 1px 2px;
+  width: 90%;
   height: 50px;
   margin: 28px auto;
   padding: 12px 18px;
@@ -41,7 +41,7 @@ const FooterWrapper = styled.footer`
   transition: ease 1s;
 
   @media (min-width: 640px) {
-    width: 350px;
+    width: 620px;
   }
 
   img {

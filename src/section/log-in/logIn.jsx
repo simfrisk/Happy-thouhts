@@ -3,43 +3,54 @@ import { BiggerButton } from "../../components/buttons";
 import { Link } from "react-router";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLoginValidation } from "../../components/useLoginValidation";
 
 export const LogIn = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const { validate, emailError, passwordError } = useLoginValidation();
+  const [loginError, setLoginError] = useState("");
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+  
 
   const handleLogin = (e) => {
     e.preventDefault();
+    const isValid = validate(formData);
+
+    if (!isValid) return;
+
+    // Proceed with login
     const { email, password } = formData;
 
-    if (email && password) {
-      fetch("https://happy-thoughts-zcsh.onrender.com/sessions", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: { "Content-Type": "application/json" },
+
+    // If valid, continue login
+    fetch("https://happy-thoughts-zcsh.onrender.com/sessions", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.accessToken) {
+          localStorage.setItem("accessToken", data.accessToken);
+          localStorage.setItem("userId", data.userId); 
+          navigate("/thoughts");
+        } else {
+          setLoginError("Invalid email or password. Please try again.");
+        }
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if(data.accessToken) {
-            localStorage.removeItem("accessToken");
-            localStorage.setItem("accessToken", data.accessToken);
-            navigate("/thoughts");
-          } else {
-            alert("Login failed.");
-          }
-        })
-        .catch((err) => {
-          console.error("Failed to post to API:", err);
-        });
-    } else {
-      alert("Please fill in all fields.");
-    }
+      .catch((err) => {
+        console.error("Failed to post to API:", err);
+      });
   };
+
+
+  
 
   return (
     <Wrapper>
@@ -63,6 +74,7 @@ export const LogIn = () => {
                   onChange={handleChange}
                 />
               </label>
+              {emailError && <ErrorMessage>{emailError}</ErrorMessage>}
             </InputGroup>
 
             <InputGroup>
@@ -76,9 +88,11 @@ export const LogIn = () => {
                   onChange={handleChange}
                 />
               </label>
+                {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
             </InputGroup>
             
               <BiggerButton type="submit">Log In</BiggerButton>
+              {loginError && <GeneralError>{loginError}</GeneralError>}
           </fieldset>
         </form>
         <p>Don’t have an account? <NavSignUp to={"/signUp"}>Get started.</NavSignUp></p>
@@ -146,6 +160,7 @@ height: 150px;
 const InputGroup = styled.div`
   margin-bottom: 15px;
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   width: 100%;
 `;
@@ -161,6 +176,19 @@ color: #353535;
 `
 
 const NavLogIn = styled(Link) `
-color: gray; 
-text-decoration: none;
+  color: gray; 
+  text-decoration: none;
 `
+
+const ErrorMessage = styled.p `
+  //Would not work without important
+  color: red !important;
+  margin-top: 10px;
+`
+
+const GeneralError = styled.p`
+  //Would not work without important
+  color: red !important;
+  margin-top: 10px;
+  text-align: center;
+`;

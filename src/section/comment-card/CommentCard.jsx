@@ -20,6 +20,7 @@ export const CommentCard = ({
   id,
   setMessages,
   setRecentComments,
+  createdByUser
 }) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -67,6 +68,7 @@ export const CommentCard = ({
             setIsEditing={setIsEditing}
             setUserInput={setUserInput}
             handleDelete={handleDelete}
+            createdByUser={createdByUser}
           />
           <CommentFooter
             likes={likes}

@@ -88,16 +88,18 @@ const Burger = styled.button`
 const Menu = styled.div`
   position: fixed;
   top: 0;
-  left: ${({ open }) => (open ? '0' : '-100%')};
+  left: 0;
   width: 100vw;
   height: 100vh;
   background: pink;
   padding: 100px 30px;
-  transition: left 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transform: ${({ open }) => (open ? 'translateX(0)' : 'translateX(-100%)')};
   display: flex;
   flex-direction: column;
   row-gap: 15px;
   z-index: 10;
+  pointer-events: ${({ open }) => (open ? 'auto' : 'none')};
 
   @media(min-width: 640px) {
     justify-content: center;
