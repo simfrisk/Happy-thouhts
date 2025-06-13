@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const ErrorMessage = styled.p`
-  color: ${(props) => (props.isError ? "red" : "black")};
+  color: ${(props) => (props.$isError ? "red" : "black")};
   text-align: right;
   margin: 0;
   padding: 0;
@@ -20,9 +20,9 @@ export const ErrorHandeler = ({ userInput }) => {
     isError = true;
   }
 
-  return (
-    <ErrorMessage isError={isError}>
-      {userInput.length}/140 {characterErrorMessage}
-    </ErrorMessage>
-  );
+return (
+  <ErrorMessage $isError={isError}>
+    {userInput.length}/140 {characterErrorMessage}
+  </ErrorMessage>
+);
 };
